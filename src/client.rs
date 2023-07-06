@@ -29,7 +29,7 @@ impl Client {
         Self {
             api_key: api_key.to_string(),
             domain: domain.to_string(),
-            client
+            client,
         }
     }
 
@@ -37,14 +37,20 @@ impl Client {
     ///
     /// This will primarily be used with pagination URLs.
     pub async fn call<T>(&self, url: &str) -> Result<T, ClientError>
-    where T: serde::de::DeserializeOwned {
-        let response = self.client.get(url)
+    where
+        T: serde::de::DeserializeOwned,
+    {
+        let response = self
+            .client
+            .get(url)
             .basic_auth("api", Some(&self.api_key))
-            .send().await?;
+            .send()
+            .await?;
 
         let status = response.status();
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -61,11 +67,13 @@ impl Client {
     /// View all bounces.
     ///
     /// [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#bounces)
-    pub async fn get_bounces(&self, params: GetBouncesParamList) -> Result<GetBouncesResponse, ClientError> {
+    pub async fn get_bounces(
+        &self,
+        params: GetBouncesParamList,
+    ) -> Result<GetBouncesResponse, ClientError> {
         let url = format!("{}/{}/bounces", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.get(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self.client.get(&url).basic_auth("api", Some(&self.api_key));
 
         for (key, value) in params.values.iter().map(|param| param.as_tuple()) {
             request = request.query(&[(&key, &value)]);
@@ -75,7 +83,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -92,11 +101,13 @@ impl Client {
     /// View all complaints.
     ///
     /// [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#view-all-complaints)
-    pub async fn get_complaints(&self, params: GetComplaintsParamList) -> Result<GetComplaintsResponse, ClientError> {
+    pub async fn get_complaints(
+        &self,
+        params: GetComplaintsParamList,
+    ) -> Result<GetComplaintsResponse, ClientError> {
         let url = format!("{}/{}/complaints", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.get(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self.client.get(&url).basic_auth("api", Some(&self.api_key));
 
         for (key, value) in params.values.iter().map(|param| param.as_tuple()) {
             request = request.query(&[(&key, &value)]);
@@ -106,7 +117,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -123,11 +135,13 @@ impl Client {
     /// View all events.
     ///
     /// [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-events.html)
-    pub async fn get_events(&self, params: GetEventsParamList<'_>) -> Result<GetEventsResponse, ClientError> {
+    pub async fn get_events(
+        &self,
+        params: GetEventsParamList<'_>,
+    ) -> Result<GetEventsResponse, ClientError> {
         let url = format!("{}/{}/events", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.get(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self.client.get(&url).basic_auth("api", Some(&self.api_key));
 
         for (key, value) in params.values.iter().map(|param| param.as_tuple()) {
             request = request.query(&[(&key, &value)]);
@@ -137,7 +151,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -154,11 +169,13 @@ impl Client {
     /// View all stats.
     ///
     /// [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-stats.html)
-    pub async fn get_stats(&self, params: GetStatsParamList<'_>) -> Result<GetStatsResponse, ClientError> {
+    pub async fn get_stats(
+        &self,
+        params: GetStatsParamList<'_>,
+    ) -> Result<GetStatsResponse, ClientError> {
         let url = format!("{}/{}/stats/total", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.get(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self.client.get(&url).basic_auth("api", Some(&self.api_key));
 
         for (key, value) in params.values.iter().map(|param| param.as_tuple()) {
             request = request.query(&[(&key, &value)]);
@@ -168,7 +185,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -185,11 +203,13 @@ impl Client {
     /// View all unsubscribes.
     ///
     /// [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#unsubscribes)
-    pub async fn get_unsubscribes(&self, params: GetUnsubscribesParamList) -> Result<GetUnsubscribesResponse, ClientError> {
+    pub async fn get_unsubscribes(
+        &self,
+        params: GetUnsubscribesParamList,
+    ) -> Result<GetUnsubscribesResponse, ClientError> {
         let url = format!("{}/{}/unsubscribes", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.get(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self.client.get(&url).basic_auth("api", Some(&self.api_key));
 
         for (key, value) in params.values.iter().map(|param| param.as_tuple()) {
             request = request.query(&[(&key, &value)]);
@@ -199,7 +219,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -216,11 +237,13 @@ impl Client {
     /// View all whitelist records.
     ///
     /// [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#view-all-whitelist-records)
-    pub async fn get_whitelists(&self, params: GetWhitelistsParamList) -> Result<GetWhitelistsResponse, ClientError> {
+    pub async fn get_whitelists(
+        &self,
+        params: GetWhitelistsParamList,
+    ) -> Result<GetWhitelistsResponse, ClientError> {
         let url = format!("{}/{}/whitelists", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.get(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self.client.get(&url).basic_auth("api", Some(&self.api_key));
 
         for (key, value) in params.values.iter().map(|param| param.as_tuple()) {
             request = request.query(&[(&key, &value)]);
@@ -230,7 +253,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -244,11 +268,16 @@ impl Client {
         serde_json::from_str(&raw).map_err(|error| ClientError::ParseResponse(error))
     }
 
-    pub async fn send_message(&self, params: SendMessageParamList<'_, String>) -> Result<SendMessageResponse, ClientError> {
+    pub async fn send_message(
+        &self,
+        params: SendMessageParamList<'_, String>,
+    ) -> Result<SendMessageResponse, ClientError> {
         let url = format!("{}/{}/messages", MAILGUN_API_BASE, self.domain);
 
-        let mut request = self.client.post(&url)
-        .basic_auth("api", Some(&self.api_key));
+        let mut request = self
+            .client
+            .post(&url)
+            .basic_auth("api", Some(&self.api_key));
 
         for param in params.values {
             let (key, value) = param.try_as_tuple()?;
@@ -262,7 +291,8 @@ impl Client {
         let status = response.status();
 
         let raw = response
-            .text().await
+            .text()
+            .await
             .map_err(|error| ClientError::ReadResponse(error))?;
 
         if status != 200 {
@@ -282,13 +312,11 @@ impl Client {
 pub enum ErrorResponse {
     #[error("With error: {error}")]
     WithError {
-        #[serde(alias = "Error" )]
-        error: String
+        #[serde(alias = "Error")]
+        error: String,
     },
     #[error("With message: {message}")]
-    WithMessage {
-        message: String,
-    }
+    WithMessage { message: String },
 }
 
 #[derive(Debug, Error)]
@@ -324,24 +352,27 @@ mod tests {
         send_message::{SendMessageParam, SendMessageParamList},
     };
     use crate::param::ParamList;
-    use crate::test_util::{test_client};
+    use crate::test_util::test_client;
 
     #[test]
     fn call() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let all = rt.block_on(client.get_events(GetEventsParamList::default())).unwrap();
+        let all = rt
+            .block_on(client.get_events(GetEventsParamList::default()))
+            .unwrap();
         let _: GetEventsResponse = rt.block_on(client.call(&all.paging.next)).unwrap();
     }
 
     #[test]
     fn get_bounces() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let _all = rt.block_on(client.get_bounces(GetBouncesParamList::default())).unwrap();
+        let _all = rt
+            .block_on(client.get_bounces(GetBouncesParamList::default()))
+            .unwrap();
 
-        let params = GetBouncesParamList::default()
-            .add(GetBouncesParam::Limit(1));
+        let params = GetBouncesParamList::default().add(GetBouncesParam::Limit(1));
         let _single = rt.block_on(client.get_bounces(params)).unwrap();
 
         // TODO: Test the response.
@@ -349,12 +380,13 @@ mod tests {
 
     #[test]
     fn get_complains() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let _all = rt.block_on(client.get_complaints(GetComplaintsParamList::default())).unwrap();
+        let _all = rt
+            .block_on(client.get_complaints(GetComplaintsParamList::default()))
+            .unwrap();
 
-        let params = GetComplaintsParamList::default()
-            .add(GetComplaintsParam::Limit(1));
+        let params = GetComplaintsParamList::default().add(GetComplaintsParam::Limit(1));
         let _single = rt.block_on(client.get_complaints(params)).unwrap();
 
         // TODO: Test the response.
@@ -362,32 +394,36 @@ mod tests {
 
     #[test]
     fn get_events() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let _all = rt.block_on(client.get_events(GetEventsParamList::default())).unwrap();
+        let _all = rt
+            .block_on(client.get_events(GetEventsParamList::default()))
+            .unwrap();
 
-        let params = GetEventsParamList::default()
-            .add(GetEventsParam::Limit(1));
+        let params = GetEventsParamList::default().add(GetEventsParam::Limit(1));
         let _single = rt.block_on(client.get_events(params)).unwrap();
     }
 
     #[test]
     fn get_stats() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let _response = rt.block_on(client.get_stats(GetStatsParamList::default())).unwrap();
+        let _response = rt
+            .block_on(client.get_stats(GetStatsParamList::default()))
+            .unwrap();
 
         // TODO: Test the response.
     }
 
     #[test]
     fn get_unsubscribes() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let _all = rt.block_on(client.get_unsubscribes(GetUnsubscribesParamList::default())).unwrap();
+        let _all = rt
+            .block_on(client.get_unsubscribes(GetUnsubscribesParamList::default()))
+            .unwrap();
 
-        let params = GetUnsubscribesParamList::default()
-            .add(GetUnsubscribesParam::Limit(1));
+        let params = GetUnsubscribesParamList::default().add(GetUnsubscribesParam::Limit(1));
         let _single = rt.block_on(client.get_unsubscribes(params)).unwrap();
 
         // TODO: Test the response.
@@ -395,12 +431,13 @@ mod tests {
 
     #[test]
     fn get_whitelists() {
-        let(_config, rt, client) = test_client();
+        let (_config, rt, client) = test_client();
 
-        let _all = rt.block_on(client.get_whitelists(GetWhitelistsParamList::default())).unwrap();
+        let _all = rt
+            .block_on(client.get_whitelists(GetWhitelistsParamList::default()))
+            .unwrap();
 
-        let params = GetWhitelistsParamList::default()
-            .add(GetWhitelistsParam::Limit(1));
+        let params = GetWhitelistsParamList::default().add(GetWhitelistsParam::Limit(1));
         let _single = rt.block_on(client.get_whitelists(params)).unwrap();
 
         // TODO: Test the response.
@@ -408,7 +445,7 @@ mod tests {
 
     #[test]
     fn send_message() {
-        let(config, rt, client) = test_client();
+        let (config, rt, client) = test_client();
 
         let from = format!("Test <test@{}>", &config.mailgun_domain);
         let params = SendMessageParamList::default()

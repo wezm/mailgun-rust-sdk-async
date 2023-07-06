@@ -44,9 +44,7 @@ pub struct GetComplaintsParamList {
 
 impl Default for GetComplaintsParamList {
     fn default() -> Self {
-        Self {
-            values: vec![],
-        }
+        Self { values: vec![] }
     }
 }
 

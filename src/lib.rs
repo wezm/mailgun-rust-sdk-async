@@ -91,7 +91,8 @@
 //! let stats = client.get_stats(GetStatsParamList::default()).unwrap();
 //! ```
 
-#[macro_use] extern crate serde;
+#[macro_use]
+extern crate serde;
 
 mod client;
 pub use client::{Client, ClientError};
@@ -107,8 +108,8 @@ pub const MAILGUN_API_BASE: &'static str = "https://api.mailgun.net/v3";
 
 #[cfg(test)]
 pub mod test_util {
-    use tokio::runtime::Runtime;
     use super::Client;
+    use tokio::runtime::Runtime;
 
     #[derive(Debug)]
     pub struct Config {
@@ -131,7 +132,8 @@ pub mod test_util {
         let config = load_config();
         let rt = tokio::runtime::Builder::new_current_thread()
             .enable_all()
-            .build().unwrap();
+            .build()
+            .unwrap();
         let client = Client::new(&config.mailgun_api_key, &config.mailgun_domain);
         (config, rt, client)
     }

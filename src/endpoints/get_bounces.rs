@@ -44,9 +44,7 @@ pub struct GetBouncesParamList {
 
 impl Default for GetBouncesParamList {
     fn default() -> Self {
-        Self {
-            values: vec![],
-        }
+        Self { values: vec![] }
     }
 }
 

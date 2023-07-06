@@ -44,9 +44,7 @@ pub struct GetUnsubscribesParamList {
 
 impl Default for GetUnsubscribesParamList {
     fn default() -> Self {
-        Self {
-            values: vec![],
-        }
+        Self { values: vec![] }
     }
 }
 

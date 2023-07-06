@@ -44,9 +44,7 @@ pub struct GetWhitelistsParamList {
 
 impl Default for GetWhitelistsParamList {
     fn default() -> Self {
-        Self {
-            values: vec![],
-        }
+        Self { values: vec![] }
     }
 }
 

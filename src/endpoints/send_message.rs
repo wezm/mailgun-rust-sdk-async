@@ -29,7 +29,10 @@ use crate::{Param, ParamError, ParamList};
 
 /// A parameter for sending message from a domain.
 #[derive(Debug)]
-pub enum SendMessageParam<'a, T: ?Sized> where T: serde::Serialize {
+pub enum SendMessageParam<'a, T: ?Sized>
+where
+    T: serde::Serialize,
+{
     /// Email address for From header.
     From(&'a str),
     /// Email address of the recipient(s). Example: "Bob <bob@host.com>". You can use commas to separate multiple recipients.
@@ -86,7 +89,10 @@ pub enum SendMessageParam<'a, T: ?Sized> where T: serde::Serialize {
     RecipientVariables(&'a T),
 }
 
-impl<'a, T: ?Sized> Param for SendMessageParam<'a, T> where T: serde::Serialize {
+impl<'a, T: ?Sized> Param for SendMessageParam<'a, T>
+where
+    T: serde::Serialize,
+{
     fn try_as_tuple(&self) -> Result<(String, String), ParamError> {
         Ok(match self {
             Self::From(v) => ("from".to_string(), v.to_string()),
@@ -103,43 +109,88 @@ impl<'a, T: ?Sized> Param for SendMessageParam<'a, T> where T: serde::Serialize 
             Self::TVersion(v) => ("t:version".to_string(), v.to_string()),
             Self::TText(v) => ("t:text".to_string(), v.to_string()),
             Self::OTag(v) => ("o:tag".to_string(), v.to_string()),
-            Self::ODkim(v) => ("o:dkim".to_string(), if *v { "yes".to_string() } else { "no".to_string() }),
+            Self::ODkim(v) => (
+                "o:dkim".to_string(),
+                if *v {
+                    "yes".to_string()
+                } else {
+                    "no".to_string()
+                },
+            ),
             Self::ODeliveryTime(v) => ("o:delivery-time".to_string(), v.to_string()),
-            Self::ODeliveryTimeOptimizePeriod(v) => ("o:delivery-time-optimize-period".to_string(), v.to_string()),
+            Self::ODeliveryTimeOptimizePeriod(v) => {
+                ("o:delivery-time-optimize-period".to_string(), v.to_string())
+            }
             Self::OTimeZoneLocalize(v) => ("o:time-zone-localize".to_string(), v.to_string()),
-            Self::OTestMode(v) => ("o:testmode".to_string(), if *v { "yes".to_string() } else { "no".to_string() }),
+            Self::OTestMode(v) => (
+                "o:testmode".to_string(),
+                if *v {
+                    "yes".to_string()
+                } else {
+                    "no".to_string()
+                },
+            ),
             Self::OTracking(v) => ("o:tracking".to_string(), v.to_string()),
             Self::OTrackingClicks(v) => ("o:tracking-clicks".to_string(), v.to_string()),
-            Self::OTrackingOpens(v) => ("o:tracking-open".to_string(), if *v { "yes".to_string() } else { "no".to_string() }),
-            Self::ORequireTls(v) => ("o:require-tls".to_string(), if *v { "yes".to_string() } else { "no".to_string() }),
-            Self::OSkipVerification(v) => ("o:skip-verification".to_string(), if *v { "yes".to_string() } else { "no".to_string() }),
+            Self::OTrackingOpens(v) => (
+                "o:tracking-open".to_string(),
+                if *v {
+                    "yes".to_string()
+                } else {
+                    "no".to_string()
+                },
+            ),
+            Self::ORequireTls(v) => (
+                "o:require-tls".to_string(),
+                if *v {
+                    "yes".to_string()
+                } else {
+                    "no".to_string()
+                },
+            ),
+            Self::OSkipVerification(v) => (
+                "o:skip-verification".to_string(),
+                if *v {
+                    "yes".to_string()
+                } else {
+                    "no".to_string()
+                },
+            ),
             Self::CustomHeader { key, value } => (format!("h:{}", key), value.to_string()),
             Self::CustomVariable { key, value } => (format!("v:{}", key), value.to_string()),
             Self::RecipientVariables(v) => {
-                let v = serde_json::to_string(v)
-                    .map_err(|error| ParamError::InvalidJson("recipient-variables".to_string(), error))?;
+                let v = serde_json::to_string(v).map_err(|error| {
+                    ParamError::InvalidJson("recipient-variables".to_string(), error)
+                })?;
 
                 ("recipient-variables".to_string(), v)
-            },
+            }
         })
     }
 }
 
 /// List of parameters for sending message from a domain.
 #[derive(Debug)]
-pub struct SendMessageParamList<'a, T: ?Sized> where T: serde::Serialize {
+pub struct SendMessageParamList<'a, T: ?Sized>
+where
+    T: serde::Serialize,
+{
     pub values: Vec<SendMessageParam<'a, T>>,
 }
 
-impl<'a, T: ?Sized> Default for SendMessageParamList<'a, T> where T: serde::Serialize {
+impl<'a, T: ?Sized> Default for SendMessageParamList<'a, T>
+where
+    T: serde::Serialize,
+{
     fn default() -> Self {
-        Self {
-            values: vec![],
-        }
+        Self { values: vec![] }
     }
 }
 
-impl<'a, T: ?Sized> ParamList for SendMessageParamList<'a, T> where T: serde::Serialize {
+impl<'a, T: ?Sized> ParamList for SendMessageParamList<'a, T>
+where
+    T: serde::Serialize,
+{
     type ParamType = SendMessageParam<'a, T>;
 
     fn add(mut self, param: Self::ParamType) -> Self {

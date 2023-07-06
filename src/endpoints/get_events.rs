@@ -71,7 +71,14 @@ impl<'a> Param for GetEventsParam<'a> {
             Self::Pretty(v) => ("pretty".to_string(), v.to_string()),
             Self::Begin(v) => ("begin".to_string(), v.to_string()),
             Self::End(v) => ("end".to_string(), v.to_string()),
-            Self::Ascending(v) => ("ascending".to_string(), if *v { "yes".to_string() } else { "no".to_string() }),
+            Self::Ascending(v) => (
+                "ascending".to_string(),
+                if *v {
+                    "yes".to_string()
+                } else {
+                    "no".to_string()
+                },
+            ),
             Self::Limit(v) => ("limit".to_string(), v.to_string()),
             Self::Event(v) => ("event".to_string(), v.to_string()),
             Self::List(v) => ("list".to_string(), v.to_string()),
@@ -98,9 +105,7 @@ pub struct GetEventsParamList<'a> {
 impl<'a> Default for GetEventsParamList<'a> {
     fn default() -> Self {
         Self {
-            values: vec![
-                GetEventsParam::Pretty(false),
-            ],
+            values: vec![GetEventsParam::Pretty(false)],
         }
     }
 }
