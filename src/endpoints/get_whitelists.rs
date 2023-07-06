@@ -15,7 +15,7 @@
 //! let whitelists = client.get_whitelists(request).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#view-all-whitelist-records)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#view-all-whitelist-records)
 
 use crate::{Paging, Param, ParamError, ParamList};
 

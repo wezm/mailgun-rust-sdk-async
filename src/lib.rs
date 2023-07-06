@@ -107,6 +107,9 @@ pub const MAILGUN_API_BASE: &'static str = "https://api.mailgun.net/v3";
 
 #[cfg(test)]
 pub mod test_util {
+    use tokio::runtime::Runtime;
+    use super::Client;
+
     #[derive(Debug)]
     pub struct Config {
         pub mailgun_api_key: String,
@@ -121,5 +124,15 @@ pub mod test_util {
             mailgun_api_key: dotenv::var("MAILGUN_API_KEY").unwrap(),
             mailgun_domain: dotenv::var("MAILGUN_DOMAIN").unwrap(),
         }
+    }
+
+    /// Construct a client for use in tests.
+    pub fn test_client() -> (Config, Runtime, Client) {
+        let config = load_config();
+        let rt = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build().unwrap();
+        let client = Client::new(&config.mailgun_api_key, &config.mailgun_domain);
+        (config, rt, client)
     }
 }

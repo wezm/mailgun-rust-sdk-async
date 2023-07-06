@@ -15,7 +15,7 @@
 //! let events = client.get_events(request).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-events.html#events)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-events.html#events)
 
 use crate::{Paging, Param, ParamError, ParamList};
 

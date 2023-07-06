@@ -15,7 +15,7 @@
 //! let complaints = client.get_complaints(request).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#view-all-complaints)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#view-all-complaints)
 
 use crate::{Paging, Param, ParamError, ParamList};
 

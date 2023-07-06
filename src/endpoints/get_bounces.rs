@@ -15,7 +15,7 @@
 //! let bounces = client.get_bounces(request).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#bounces)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#bounces)
 
 use crate::{Paging, Param, ParamError, ParamList};
 

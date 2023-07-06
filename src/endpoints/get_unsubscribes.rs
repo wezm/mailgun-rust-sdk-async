@@ -15,7 +15,7 @@
 //! let unsubscribes = client.get_unsubscribes(request).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#unsubscribes)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-suppressions.html#unsubscribes)
 
 use crate::{Paging, Param, ParamError, ParamList};
 

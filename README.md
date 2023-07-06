@@ -5,8 +5,6 @@
 This crate helps facilitate interacting with the MailGun API. You will need
 to supply both an *API Key* and *Domain*.
 
-[API Reference](https://documentation.mailgun.com/en/latest/api_reference.html)
-
 ## Usage
 
 ### Send a Message

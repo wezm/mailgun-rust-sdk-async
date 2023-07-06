@@ -21,7 +21,7 @@
 //! client.send_message(params).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)
 
 use crate::{Param, ParamError, ParamList};
 

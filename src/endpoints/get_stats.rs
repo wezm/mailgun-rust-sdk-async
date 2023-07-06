@@ -15,7 +15,7 @@
 //! let stats = client.get_stats(request).unwrap();
 //! ```
 //!
-//! [API Documentation](https://documentation.mailgun.com/en/latest/api-stats.html)
+//! [Mailgun Documentation](https://documentation.mailgun.com/en/latest/api-stats.html)
 
 use crate::{Param, ParamError, ParamList};
 
