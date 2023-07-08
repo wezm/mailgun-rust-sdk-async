@@ -272,6 +272,13 @@ impl Client {
         &self,
         params: SendMessageParamList<'_, String>,
     ) -> Result<SendMessageResponse, ClientError> {
+        self.send_message_vars(params).await
+    }
+
+    pub async fn send_message_vars<T: serde::Serialize>(
+        &self,
+        params: SendMessageParamList<'_, T>,
+    ) -> Result<SendMessageResponse, ClientError> {
         let url = format!("{}/{}/messages", MAILGUN_API_BASE, self.domain);
 
         let mut request = self
